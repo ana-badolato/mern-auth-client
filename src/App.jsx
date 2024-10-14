@@ -9,6 +9,7 @@ import PrivatePageExample from "./pages/PrivatePageExample";
 
 // components
 import Navbar from "./components/Navbar"
+import Private from "./components/auth/Private";
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/private-page-example" element={<PrivatePageExample />} />
+        <Route path="/private-page-example" element={ <Private> <PrivatePageExample /> </Private>} />
 
         {/* error FE routes here... */}
 

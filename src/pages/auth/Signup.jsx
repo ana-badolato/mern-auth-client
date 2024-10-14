@@ -1,10 +1,15 @@
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handleUsernameChange = (e) => setUsername(e.target.value);
@@ -14,6 +19,26 @@ function Signup() {
     e.preventDefault();
 
     // ... contactar al backend para registrar al usuario aqui
+    try {
+
+      const newUser = {
+        email,
+        username,
+        password
+      }
+
+      await axios.post("http://localhost:5005/api/auth/signup", newUser)
+
+      navigate("/login")
+
+    } catch (error) {
+      console.log(error)
+      if (error.response.status === 400) {
+        setErrorMessage(error.response.data.message)
+      }else {
+        //! Aquí debería haber redirección a alguna página de /Error
+      }
+    }
   };
 
   return (
@@ -54,6 +79,8 @@ function Signup() {
         <br />
 
         <button type="submit">Registrar</button>
+
+        {errorMessage && <p>{errorMessage}</p>}
       </form>
       
     </div>
